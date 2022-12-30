@@ -6,6 +6,7 @@ from . import (
     settings
 )
 from .debug import debug
+from .level import Level
 from .parser import get_parser
 
 
@@ -14,9 +15,10 @@ class Game:
     def __init__(self, debug=False):
 
         pygame.init()
-        self.screen = pygame.display.set_mode(settings.WIDTH, settings.HEIGHT)
+        self.screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
         pygame.display.set_caption('Caves of High Rule')
         self.clock = pygame.time.Clock()
+        self.level = Level()
 
         self.debug = debug
 
@@ -29,6 +31,7 @@ class Game:
                     sys.exit()
 
             self.screen.fill('black')
+            self.level.run()
 
             if self.debug:
                 debug('write debug info here.')
@@ -37,9 +40,9 @@ class Game:
             self.clock.tick(settings.FPS)
 
 
-def main():
+def main(debug=False):
     """Main function, used as entry point when highrule is run from the command line"""
-    game = Game()
+    game = Game(debug=debug)
     game.run()
 
 
