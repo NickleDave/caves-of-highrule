@@ -9,6 +9,9 @@ version = "0.1.0"
 description = "game: Caves of High Rule"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
+dependencies = [
+    "pygame >=2.1.2",
+]
 
 [project.urls]
 Home = "https://github.com/NickleDave/highrule"
