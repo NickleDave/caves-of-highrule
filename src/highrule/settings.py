@@ -1,7 +1,8 @@
 import pathlib
 
 PACKAGE_ROOT = pathlib.Path(__file__).parent
-GRAPHICS_ROOT = PACKAGE_ROOT / 'graphics'
+ASSETS_ROOT = PACKAGE_ROOT / 'assets'
+GRAPHICS_ROOT = ASSETS_ROOT / 'graphics'
 
 WIDTH = 1280
 HEIGHT = 720
