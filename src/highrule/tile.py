@@ -4,8 +4,10 @@ from . import settings
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, sprite_type, surface = pygame.Surface((settings.TILESIZE, settings.TILESIZE))):
         super().__init__(groups)
-        self.image = pygame.image.load(settings.GRAPHICS_ROOT / 'test/rock.png').convert_alpha()
+
+        self.sprite_type = sprite_type
+        self.image = surface
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -10)  # shrink 5 pixels from top and bottom
