@@ -1,6 +1,12 @@
+import random
+
 import pygame
 
-from . import settings
+from . import (
+    csv,
+    folder,
+    settings
+)
 from .player import Player
 from .tile import Tile
 
@@ -46,6 +52,39 @@ class Level:
         self.create_map()
 
     def create_map(self):
+        style_layout_map = {
+            'boundary': csv.import_csv_layout(settings.MAP_ROOT / 'map_FloorBlocks.csv'),
+            'grass': csv.import_csv_layout(settings.MAP_ROOT / 'map_Grass.csv'),
+            'object': csv.import_csv_layout(settings.MAP_ROOT / 'map_LargeObjects.csv'),
+        }
+        graphics_surfaces_map = {
+            'grass': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'grass'),
+            'objects': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'objects')
+        }
+        for style, layout in style_layout_map.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col_char in enumerate(row):
+                    if col_char != '-1':
+                        x = col_index * settings.TILESIZE
+                        y = row_index * settings.TILESIZE
+                        if style == 'boundary':
+                            Tile((x, y), [self.obstacle_sprites,], 'invisible')
+                        elif style == 'grass':
+                            random_grass_image = random.choice(graphics_surfaces_map['grass'])
+                            Tile(
+                                (x, y),
+                                [self.visible_sprites, self.obstacle_sprites,],
+                                'grass',
+                                random_grass_image
+                            )
+                        elif style == 'object':
+                            object_image = graphics_surfaces_map['objects'][int(col_char)]
+                            Tile(
+                                (x, y),
+                                [self.visible_sprites, self.obstacle_sprites,],
+                                'object',
+                                object_image
+                            )
         self.player = Player((2000, 1430), [self.visible_sprites], self.obstacle_sprites)
 
     def run(self):
