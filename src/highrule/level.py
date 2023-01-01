@@ -5,7 +5,8 @@ import pygame
 from . import (
     csv,
     folder,
-    settings
+    settings,
+    weapon,
 )
 from .player import Player
 from .tile import Tile
@@ -49,6 +50,8 @@ class Level:
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
 
+        self.weapon_sprite = None
+
         self.create_map()
 
     def create_map(self):
@@ -85,7 +88,21 @@ class Level:
                                 'object',
                                 object_image
                             )
-        self.player = Player((2000, 1430), [self.visible_sprites], self.obstacle_sprites)
+        self.player = Player(
+                        (2000, 1430),
+                        [self.visible_sprites],
+                        self.obstacle_sprites,
+                        self.create_weapon,
+                        self.destroy_weapon
+                    )
+
+    def create_weapon(self):
+        self.weapon_sprite = weapon.Weapon(self.player, [self.visible_sprites])
+
+    def destroy_weapon(self):
+        if self.weapon_sprite:
+            self.weapon_sprite.kill()
+            self.weapon_sprite = None
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
