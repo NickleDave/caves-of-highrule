@@ -3,7 +3,7 @@ import random
 import pygame
 
 from . import (
-    csv,
+    txt,
     folder,
     settings,
     weapon,
@@ -28,7 +28,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         self.floor_surface = pygame.image.load(
-            settings.GRAPHICS_ROOT / 'tilemap/ground.png'
+            settings.GRAPHICS_ROOT / 'tilemap/zelda_overworld.png'
         ).convert()
         self.floor_rect = self.floor_surface.get_rect(topleft = (0, 0))
 
@@ -56,9 +56,8 @@ class Level:
 
     def create_map(self):
         style_layout_map = {
-            'boundary': csv.import_csv_layout(settings.MAP_ROOT / 'map_FloorBlocks.csv'),
-            'grass': csv.import_csv_layout(settings.MAP_ROOT / 'map_Grass.csv'),
-            'object': csv.import_csv_layout(settings.MAP_ROOT / 'map_LargeObjects.csv'),
+            'boundary': txt.load_blocking_txt(settings.MAP_ROOT / 'nes_zelda_overworld_blocking_map.txt'),
+            'tile': txt.load_overworld_tile_txt(settings.MAP_ROOT / 'nes_zelda_overworld_tile_map.txt'),
         }
         graphics_surfaces_map = {
             'grass': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'grass'),
