@@ -10,7 +10,7 @@ from . import (
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacle_sprites, create_weapon, destroy_weapon):
         super().__init__(groups)
-        self.image = pygame.image.load(settings.GRAPHICS_ROOT / 'test/player.png').convert_alpha()
+        self.image = pygame.image.load(settings.GRAPHICS_ROOT / 'link/down/link_down1.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -26)
 
@@ -35,21 +35,13 @@ class Player(pygame.sprite.Sprite):
         self.destroy_weapon = destroy_weapon
 
     def load_player_assets(self):
-        character_path = settings.GRAPHICS_ROOT / 'player'
+        character_path = settings.GRAPHICS_ROOT / 'link'
         self.animations = {}
         for movement_type in [
             'down',
-            'down_attack',
-            'down_idle',
             'left',
-            'left_attack',
-            'left_idle',
             'right',
-            'right_attack',
-            'right_idle',
             'up',
-            'up_attack',
-            'up_idle',
             ]:
             self.animations[movement_type] = folder.img_folder_to_surfaces(character_path / movement_type)
 
@@ -79,33 +71,23 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-        # ---- attack --------------------
-        if keys[pygame.K_SPACE]:
-            self.attacking = True
-            self.attack_time = pygame.time.get_ticks()
-            self.create_weapon()
-
-        # ---- magic --------------------
-        if keys[pygame.K_LCTRL]:
-            self.attacking = True
-            self.attack_time = pygame.time.get_ticks()
-
     def get_status(self):
-        if self.direction.x == 0 and self.direction.y == 0:
-            if not self.status.endswith('_idle') and not self.status.endswith('_attack'):
-                self.status = f'{self.status}_idle'
+        pass
+        # if self.direction.x == 0 and self.direction.y == 0:
+        #     if not self.status.endswith('_idle') and not self.status.endswith('_attack'):
+        #         self.status = f'{self.status}_idle'
 
-        if self.attacking:
-            self.direction.x = 0
-            self.direction.y = 0
-            if not self.status.endswith('_attack'):
-                if self.status.endswith('_idle'):
-                    self.status = self.status.replace('_idle', '_attack')
-                else:
-                    self.status = f'{self.status}_attack'
-        else:
-            if self.status.endswith('_attack'):
-                self.status = self.status.replace('_attack', '')
+        # if self.attacking:
+        #     self.direction.x = 0
+        #     self.direction.y = 0
+        #     if not self.status.endswith('_attack'):
+        #         if self.status.endswith('_idle'):
+        #             self.status = self.status.replace('_idle', '_attack')
+        #         else:
+        #             self.status = f'{self.status}_attack'
+        # else:
+        #     if self.status.endswith('_attack'):
+        #         self.status = self.status.replace('_attack', '')
 
     def move(self, speed):
         if self.direction.magnitude() != 0:
