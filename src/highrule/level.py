@@ -3,9 +3,10 @@ import random
 import pygame
 
 from . import (
-    txt,
     folder,
+    json_,
     settings,
+    txt,
     weapon,
 )
 from .player import Player
@@ -57,10 +58,10 @@ class Level:
     def create_map(self):
         style_layout_map = {
             'boundary': txt.load_blocking_txt(settings.MAP_ROOT / 'nes_zelda_overworld_blocking_map.txt'),
-            'tile': txt.load_overworld_tile_txt(settings.MAP_ROOT / 'nes_zelda_overworld_tile_map.txt'),
+            'tile': json_.load_tilemap_from_aseprite_json(settings.MAP_ROOT / 'sprite.json'),
         }
         graphics_surfaces_map = {
-            'grass': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'grass'),
+            'overworld': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'grass'),
             'objects': folder.img_folder_to_surfaces(settings.GRAPHICS_ROOT / 'objects')
         }
         for style, layout in style_layout_map.items():
